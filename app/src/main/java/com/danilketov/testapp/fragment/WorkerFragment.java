@@ -19,6 +19,7 @@ import com.danilketov.testapp.R;
 import com.danilketov.testapp.adapter.WorkerAdapter;
 import com.danilketov.testapp.entity.Worker;
 import com.danilketov.testapp.network.HttpClient;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -83,24 +84,29 @@ public class WorkerFragment extends Fragment {
         }
     }
 
+    private void setSettingsToolbar() {
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
+
     private void initRecyclerView(View view) {
         recyclerView = view.findViewById(R.id.worker_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         WorkerAdapter.OnInfoWorkerClickListener listener = new WorkerAdapter.OnInfoWorkerClickListener() {
             @Override
             public void onInfoWorkerClick(Worker worker) {
+                String lastName = worker.getLastName();
+                String firstName = worker.getFirstName();
+                String age = worker.getBirthday();
+                String birthday = worker.getBirthday();
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragment_container, new DescWorkerFragment())
+                        .replace(R.id.fragment_container, new DescWorkerFragment().newInstance(lastName, firstName, age, birthday))
                         .addToBackStack(null)
                         .commit();
             }
         };
         adapter = new WorkerAdapter(listener);
         recyclerView.setAdapter(adapter);
-    }
-    private void setSettingsToolbar() {
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 }

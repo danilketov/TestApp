@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,8 +32,41 @@ public class DescWorkerFragment extends Fragment {
 
         setSettingsToolbar();
         initView(view);
+        getSetData();
 
         return view;
+    }
+
+    private void getSetData() {
+        Bundle args = getArguments();
+        if (args != null) {
+            String lastName = args.getString("lName");
+            String firstName = args.getString("fName");
+            String age = args.getString("age");
+            String birthday = args.getString("birthday");
+
+            lastNameTextView.setText(lastName);
+            firstNameTextView.setText(firstName);
+            ageTextView.setText(age);
+            birthdayTextView.setText(birthday);
+
+        } else {
+            Toast.makeText(getActivity(), R.string.frag_args_null, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public static Fragment newInstance(String lastName,
+                                       String firstName,
+                                       String age,
+                                       String birthday) {
+        Bundle args = new Bundle();
+        args.putString("lName", lastName);
+        args.putString("fName", firstName);
+        args.putString("age", age);
+        args.putString("birthday", birthday);
+        DescWorkerFragment fragment = new DescWorkerFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     private void initView(View view) {
