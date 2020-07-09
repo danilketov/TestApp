@@ -1,11 +1,20 @@
 package com.danilketov.testapp.entity;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
+import com.danilketov.testapp.utils.CustomTypeConverter;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+@Entity
 public class Worker {
 
+    @PrimaryKey
+    @NonNull
     @SerializedName("f_name")
     private String firstName;
 
@@ -17,6 +26,7 @@ public class Worker {
     @SerializedName("avatr_url")
     private String avatarUrl;
 
+    @TypeConverters(CustomTypeConverter.class)
     private List<Specialty> specialty;
 
     public Worker(String firstName, String lastName, String birthday, String avatarUrl, List<Specialty> specialty) {

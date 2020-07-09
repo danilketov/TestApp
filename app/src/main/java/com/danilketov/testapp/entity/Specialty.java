@@ -1,9 +1,16 @@
 package com.danilketov.testapp.entity;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
+@Entity
 public class Specialty {
 
+    @PrimaryKey
+    @NonNull
     @SerializedName("specialty_id")
     private int id;
     private String name;

@@ -15,10 +15,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.danilketov.testapp.App;
 import com.danilketov.testapp.R;
 import com.danilketov.testapp.adapter.SpecialAdapter;
 import com.danilketov.testapp.entity.Specialty;
 import com.danilketov.testapp.network.HttpClient;
+import com.danilketov.testapp.repository.DataRepository;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,6 +31,7 @@ public class SpecialtyFragment extends Fragment {
     private SpecialAdapter adapter;
     private HttpClient httpClient;
     private ProgressBar progressBar;
+    private DataRepository dataRepository;
 
     @Nullable
     @Override
@@ -43,6 +46,8 @@ public class SpecialtyFragment extends Fragment {
         httpClient = new HttpClient();
 
         progressBar = view.findViewById(R.id.progress_bar);
+
+        dataRepository = App.getDataRepository();
 
         updateContent();
 

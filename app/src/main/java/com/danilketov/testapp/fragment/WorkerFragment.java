@@ -15,10 +15,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.danilketov.testapp.App;
 import com.danilketov.testapp.R;
 import com.danilketov.testapp.adapter.WorkerAdapter;
 import com.danilketov.testapp.entity.Worker;
 import com.danilketov.testapp.network.HttpClient;
+import com.danilketov.testapp.repository.DataRepository;
 import com.danilketov.testapp.utils.Const;
 import com.danilketov.testapp.utils.Converter;
 import com.danilketov.testapp.utils.Filter;
@@ -33,6 +35,8 @@ public class WorkerFragment extends Fragment {
     private WorkerAdapter adapter;
     private HttpClient httpClient;
     private ProgressBar progressBar;
+    private DataRepository dataRepository;
+
 
     @Nullable
     @Override
@@ -48,6 +52,8 @@ public class WorkerFragment extends Fragment {
         progressBar = view.findViewById(R.id.progress_bar);
 
         httpClient = new HttpClient();
+
+        dataRepository = App.getDataRepository();
 
         updateContent();
 
@@ -69,7 +75,7 @@ public class WorkerFragment extends Fragment {
         @Override
         protected ArrayList<Worker> doInBackground(String... queries) {
             try {
-                return httpClient.getWorkersInfo();
+                return dataRepository.getWorkers();
             } catch (IOException e) {
                 e.printStackTrace();
                 return null;
