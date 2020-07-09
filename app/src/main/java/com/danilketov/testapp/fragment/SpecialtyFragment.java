@@ -91,7 +91,7 @@ public class SpecialtyFragment extends Fragment {
             public void onInfoSpecialClick(Specialty specialty) {
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragment_container, new WorkerFragment())
+                        .replace(R.id.fragment_container, new WorkerFragment().newInstance(specialty.getName()))
                         .addToBackStack(null)
                         .commit();
             }

@@ -40,6 +40,7 @@ public class WorkerFragment extends Fragment {
 
         setSettingsToolbar();
         initRecyclerView(view);
+        getNameSpecialty();
 
         progressBar = view.findViewById(R.id.progress_bar);
 
@@ -84,6 +85,18 @@ public class WorkerFragment extends Fragment {
         }
     }
 
+    private String getNameSpecialty() {
+        Bundle args = getArguments();
+        String nameSpecialty = null;
+        if (args != null) {
+            nameSpecialty = args.getString("nameSpec");
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(nameSpecialty);
+        } else {
+            Toast.makeText(getActivity(), R.string.frag_args_null, Toast.LENGTH_SHORT).show();
+        }
+        return nameSpecialty;
+    }
+
     private void setSettingsToolbar() {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -108,5 +121,13 @@ public class WorkerFragment extends Fragment {
         };
         adapter = new WorkerAdapter(listener);
         recyclerView.setAdapter(adapter);
+    }
+
+    public static Fragment newInstance(String specialty) {
+        Bundle args = new Bundle();
+        args.putString("nameSpec", specialty);
+        WorkerFragment fragment = new WorkerFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 }
