@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.danilketov.testapp.R;
 import com.danilketov.testapp.entity.Worker;
+import com.danilketov.testapp.utils.Converter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,9 +80,9 @@ public class WorkerAdapter extends RecyclerView.Adapter<WorkerAdapter.WorkerView
         }
 
         void bind(Worker worker) {
-            firstNameTextView.setText(worker.getFirstName());
-            lastNameTextView.setText(worker.getLastName());
-            ageTextView.setText(worker.getBirthday());
+            firstNameTextView.setText(Converter.getFormattedString(worker.getFirstName()));
+            lastNameTextView.setText(Converter.getFormattedString(worker.getLastName()));
+            ageTextView.setText(Converter.getFormattedAge(worker.getBirthday()));
         }
     }
 }

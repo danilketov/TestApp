@@ -19,6 +19,7 @@ import com.danilketov.testapp.R;
 import com.danilketov.testapp.adapter.WorkerAdapter;
 import com.danilketov.testapp.entity.Worker;
 import com.danilketov.testapp.network.HttpClient;
+import com.danilketov.testapp.utils.Converter;
 import com.danilketov.testapp.utils.Filter;
 import com.google.gson.Gson;
 
@@ -110,10 +111,10 @@ public class WorkerFragment extends Fragment {
         WorkerAdapter.OnInfoWorkerClickListener listener = new WorkerAdapter.OnInfoWorkerClickListener() {
             @Override
             public void onInfoWorkerClick(Worker worker) {
-                String lastName = worker.getLastName();
-                String firstName = worker.getFirstName();
-                String age = worker.getBirthday();
-                String birthday = worker.getBirthday();
+                String lastName = Converter.getFormattedString(worker.getLastName());
+                String firstName = Converter.getFormattedString(worker.getFirstName());
+                String age = Converter.getFormattedAge(worker.getBirthday());
+                String birthday = Converter.getFormattedBirthday(worker.getBirthday());
                 String specialtyJSON = new Gson().toJson(worker.getSpecialty());
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
