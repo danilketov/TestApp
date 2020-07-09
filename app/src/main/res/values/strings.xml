@@ -1,14 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">TestApp</string>
-    <string name="specialty">Специальность</string>
-    <string name="first_name">Имя</string>
-    <string name="last_name">Фамилия</string>
-    <string name="age">Возраст</string>
-    <string name="birthday">Дата рождения</string>
-    <string name="toolbar_spec">Специальности</string>
-    <string name="error">Ошибка, проверье подключение к сети</string>
+    <string name="app_name" translatable="false">TestApp</string>
+    <string name="specialty">Specialty</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="age">Age</string>
+    <string name="birthday">Birthday</string>
+    <string name="toolbar_spec">Specialties</string>
+    <string name="error">Error checking network connection</string>
     <string name="empty_value">-</string>
-    <string name="toolbar_title_specialty">Специальности</string>
-    <string name="toolbar_title_desc_worker">Описание работника</string>
+    <string name="toolbar_title_specialty">Specialties</string>
+    <string name="toolbar_title_desc_worker">Description of the employee</string>
     <string name="frag_args_null">Fragment args null</string>
 </resources>
