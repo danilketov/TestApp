@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.danilketov.testapp.R;
@@ -28,6 +29,7 @@ public class DescWorkerFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_desc_worker, container, false);
 
+        setSettingsToolbar();
         initView(view);
 
         return view;
@@ -39,5 +41,10 @@ public class DescWorkerFragment extends Fragment {
         ageTextView = view.findViewById(R.id.value_age_text_view);
         birthdayTextView = view.findViewById(R.id.value_birthday_text_view);
         specialtyTextView = view.findViewById(R.id.value_special_text_view);
+    }
+    private void setSettingsToolbar() {
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.toolbar_title_desc_worker);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 }

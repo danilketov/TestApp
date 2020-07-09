@@ -8,4 +8,6 @@
     <string name="toolbar_spec">Специальности</string>
     <string name="error">Ошибка, проверье подключение к сети</string>
     <string name="empty_value">-</string>
+    <string name="toolbar_title_specialty">Специальности</string>
+    <string name="toolbar_title_desc_worker">Описание работника</string>
 </resources>

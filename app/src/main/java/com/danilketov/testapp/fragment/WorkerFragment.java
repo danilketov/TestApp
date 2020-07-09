@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,6 +28,7 @@ public class WorkerFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_worker, container, false);
 
+        setSettingsToolbar();
         initRecyclerView(view);
 
         return view;
@@ -48,5 +50,8 @@ public class WorkerFragment extends Fragment {
         adapter = new WorkerAdapter(listener);
         recyclerView.setAdapter(adapter);
     }
-
+    private void setSettingsToolbar() {
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
 }
