@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.danilketov.testapp.R;
+import com.danilketov.testapp.utils.Const;
 import com.danilketov.testapp.utils.Filter;
 import com.squareup.picasso.Picasso;
 
@@ -44,12 +45,12 @@ public class DescWorkerFragment extends Fragment {
     private void getSetData() {
         Bundle args = getArguments();
         if (args != null) {
-            String lastName = args.getString("lName");
-            String firstName = args.getString("fName");
-            String age = args.getString("age");
-            String birthday = args.getString("birthday");
-            String avatar = args.getString("avatarUrl");
-            String specialtyJSON = args.getString("specialtyJSON");
+            String lastName = args.getString(Const.KEY_WORKER_LAST_NAME);
+            String firstName = args.getString(Const.KEY_WORKER_FIRST_NAME);
+            String age = args.getString(Const.KEY_WORKER_AGE);
+            String birthday = args.getString(Const.KEY_WORKER_BIRTHDAY);
+            String avatar = args.getString(Const.KEY_WORKER_AVATAR);
+            String specialtyJSON = args.getString(Const.KEY_SPECIALTY_JSON);
             String specialtyText = Filter.getSpecialtyText(specialtyJSON);
 
             lastNameTextView.setText(lastName);
@@ -76,12 +77,12 @@ public class DescWorkerFragment extends Fragment {
                                        String avatar,
                                        String specialtyJSON) {
         Bundle args = new Bundle();
-        args.putString("lName", lastName);
-        args.putString("fName", firstName);
-        args.putString("age", age);
-        args.putString("birthday", birthday);
-        args.putString("avatarUrl", avatar);
-        args.putString("specialtyJSON", specialtyJSON);
+        args.putString(Const.KEY_WORKER_LAST_NAME, lastName);
+        args.putString(Const.KEY_WORKER_FIRST_NAME, firstName);
+        args.putString(Const.KEY_WORKER_AGE, age);
+        args.putString(Const.KEY_WORKER_BIRTHDAY, birthday);
+        args.putString(Const.KEY_WORKER_AVATAR, avatar);
+        args.putString(Const.KEY_SPECIALTY_JSON, specialtyJSON);
         DescWorkerFragment fragment = new DescWorkerFragment();
         fragment.setArguments(args);
         return fragment;

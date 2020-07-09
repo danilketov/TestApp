@@ -27,7 +27,7 @@ public class Converter {
             try {
                 date1 = inputFormat1.parse(dateString);
                 if (date1.getTime() > 0) {
-                    return outputFormat.format(date1) + " г.";
+                    return outputFormat.format(date1) + Const.WORKER_BIRTHDAY_YEAR_END;
                 }
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -35,7 +35,7 @@ public class Converter {
             try {
                 date2 = inputFormat2.parse(dateString);
                 if (date2.getTime() > 0) {
-                    return outputFormat.format(date2) + " г.";
+                    return outputFormat.format(date2) + Const.WORKER_BIRTHDAY_YEAR_END;
                 }
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -72,7 +72,7 @@ public class Converter {
                 age--;
             }
 
-            String result = age + " лет";
+            String result = age + Const.WORKER_AGE_END;
 
             return result;
         }

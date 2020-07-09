@@ -19,6 +19,7 @@ import com.danilketov.testapp.R;
 import com.danilketov.testapp.adapter.WorkerAdapter;
 import com.danilketov.testapp.entity.Worker;
 import com.danilketov.testapp.network.HttpClient;
+import com.danilketov.testapp.utils.Const;
 import com.danilketov.testapp.utils.Converter;
 import com.danilketov.testapp.utils.Filter;
 import com.google.gson.Gson;
@@ -92,7 +93,7 @@ public class WorkerFragment extends Fragment {
         Bundle args = getArguments();
         String nameSpecialty = null;
         if (args != null) {
-            nameSpecialty = args.getString("nameSpec");
+            nameSpecialty = args.getString(Const.KEY_WORKER_SPECIALTY);
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(nameSpecialty);
         } else {
             Toast.makeText(getActivity(), R.string.frag_args_null, Toast.LENGTH_SHORT).show();
@@ -119,7 +120,8 @@ public class WorkerFragment extends Fragment {
                 String specialtyJSON = new Gson().toJson(worker.getSpecialty());
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragment_container, new DescWorkerFragment().newInstance(lastName, firstName, age, birthday, avatar, specialtyJSON))
+                        .replace(R.id.fragment_container, new DescWorkerFragment()
+                                .newInstance(lastName, firstName, age, birthday, avatar, specialtyJSON))
                         .addToBackStack(null)
                         .commit();
             }
@@ -130,7 +132,7 @@ public class WorkerFragment extends Fragment {
 
     public static Fragment newInstance(String specialty) {
         Bundle args = new Bundle();
-        args.putString("nameSpec", specialty);
+        args.putString(Const.KEY_WORKER_SPECIALTY, specialty);
         WorkerFragment fragment = new WorkerFragment();
         fragment.setArguments(args);
         return fragment;
