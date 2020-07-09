@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.danilketov.testapp.R;
+import com.danilketov.testapp.utils.Filter;
 
 
 public class DescWorkerFragment extends Fragment {
@@ -44,11 +45,14 @@ public class DescWorkerFragment extends Fragment {
             String firstName = args.getString("fName");
             String age = args.getString("age");
             String birthday = args.getString("birthday");
+            String specialtyJSON = args.getString("specialtyJSON");
+            String specialtyText = Filter.getSpecialtyText(specialtyJSON);
 
             lastNameTextView.setText(lastName);
             firstNameTextView.setText(firstName);
             ageTextView.setText(age);
             birthdayTextView.setText(birthday);
+            specialtyTextView.setText(specialtyText);
 
         } else {
             Toast.makeText(getActivity(), R.string.frag_args_null, Toast.LENGTH_SHORT).show();
@@ -58,12 +62,14 @@ public class DescWorkerFragment extends Fragment {
     public static Fragment newInstance(String lastName,
                                        String firstName,
                                        String age,
-                                       String birthday) {
+                                       String birthday,
+                                       String specialtyJSON) {
         Bundle args = new Bundle();
         args.putString("lName", lastName);
         args.putString("fName", firstName);
         args.putString("age", age);
         args.putString("birthday", birthday);
+        args.putString("specialtyJSON", specialtyJSON);
         DescWorkerFragment fragment = new DescWorkerFragment();
         fragment.setArguments(args);
         return fragment;

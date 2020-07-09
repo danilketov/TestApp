@@ -20,6 +20,7 @@ import com.danilketov.testapp.adapter.WorkerAdapter;
 import com.danilketov.testapp.entity.Worker;
 import com.danilketov.testapp.network.HttpClient;
 import com.danilketov.testapp.utils.Filter;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -113,9 +114,10 @@ public class WorkerFragment extends Fragment {
                 String firstName = worker.getFirstName();
                 String age = worker.getBirthday();
                 String birthday = worker.getBirthday();
+                String specialtyJSON = new Gson().toJson(worker.getSpecialty());
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragment_container, new DescWorkerFragment().newInstance(lastName, firstName, age, birthday))
+                        .replace(R.id.fragment_container, new DescWorkerFragment().newInstance(lastName, firstName, age, birthday, specialtyJSON))
                         .addToBackStack(null)
                         .commit();
             }
