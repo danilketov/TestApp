@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.danilketov.testapp.R;
 import com.danilketov.testapp.entity.Worker;
 import com.danilketov.testapp.utils.Converter;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +64,7 @@ public class WorkerAdapter extends RecyclerView.Adapter<WorkerAdapter.WorkerView
         private TextView firstNameTextView;
         private TextView lastNameTextView;
         private TextView ageTextView;
+        private ImageView avatarImageView;
 
         public WorkerViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -69,6 +72,7 @@ public class WorkerAdapter extends RecyclerView.Adapter<WorkerAdapter.WorkerView
             firstNameTextView = itemView.findViewById(R.id.first_name_text_view);
             lastNameTextView = itemView.findViewById(R.id.last_name_text_view);
             ageTextView = itemView.findViewById(R.id.age_text_view);
+            avatarImageView = itemView.findViewById(R.id.avatar_circle_image_view);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -83,6 +87,13 @@ public class WorkerAdapter extends RecyclerView.Adapter<WorkerAdapter.WorkerView
             firstNameTextView.setText(Converter.getFormattedString(worker.getFirstName()));
             lastNameTextView.setText(Converter.getFormattedString(worker.getLastName()));
             ageTextView.setText(Converter.getFormattedAge(worker.getBirthday()));
+
+            String avatarUrl = worker.getAvatarUrl();
+            Picasso.get()
+                    .load(Converter.getAvatarWorker(avatarUrl, worker))
+                    .fit()
+                    .placeholder(R.drawable.no_avatar)
+                    .into(avatarImageView);
         }
     }
 }

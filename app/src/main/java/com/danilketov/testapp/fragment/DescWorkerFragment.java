@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,6 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import com.danilketov.testapp.R;
 import com.danilketov.testapp.utils.Filter;
+import com.squareup.picasso.Picasso;
 
 
 public class DescWorkerFragment extends Fragment {
@@ -23,6 +25,7 @@ public class DescWorkerFragment extends Fragment {
     private TextView ageTextView;
     private TextView birthdayTextView;
     private TextView specialtyTextView;
+    private ImageView circleAvatarImageView;
 
     @Nullable
     @Override
@@ -45,6 +48,7 @@ public class DescWorkerFragment extends Fragment {
             String firstName = args.getString("fName");
             String age = args.getString("age");
             String birthday = args.getString("birthday");
+            String avatar = args.getString("avatarUrl");
             String specialtyJSON = args.getString("specialtyJSON");
             String specialtyText = Filter.getSpecialtyText(specialtyJSON);
 
@@ -53,6 +57,12 @@ public class DescWorkerFragment extends Fragment {
             ageTextView.setText(age);
             birthdayTextView.setText(birthday);
             specialtyTextView.setText(specialtyText);
+
+            Picasso.get()
+                    .load(avatar)
+                    .fit()
+                    .placeholder(R.drawable.no_avatar)
+                    .into(circleAvatarImageView);
 
         } else {
             Toast.makeText(getActivity(), R.string.frag_args_null, Toast.LENGTH_SHORT).show();
@@ -63,12 +73,14 @@ public class DescWorkerFragment extends Fragment {
                                        String firstName,
                                        String age,
                                        String birthday,
+                                       String avatar,
                                        String specialtyJSON) {
         Bundle args = new Bundle();
         args.putString("lName", lastName);
         args.putString("fName", firstName);
         args.putString("age", age);
         args.putString("birthday", birthday);
+        args.putString("avatarUrl", avatar);
         args.putString("specialtyJSON", specialtyJSON);
         DescWorkerFragment fragment = new DescWorkerFragment();
         fragment.setArguments(args);
@@ -81,6 +93,7 @@ public class DescWorkerFragment extends Fragment {
         ageTextView = view.findViewById(R.id.value_age_text_view);
         birthdayTextView = view.findViewById(R.id.value_birthday_text_view);
         specialtyTextView = view.findViewById(R.id.value_special_text_view);
+        circleAvatarImageView = view.findViewById(R.id.avatar_circle_image_view);
     }
     private void setSettingsToolbar() {
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.toolbar_title_desc_worker);

@@ -115,10 +115,11 @@ public class WorkerFragment extends Fragment {
                 String firstName = Converter.getFormattedString(worker.getFirstName());
                 String age = Converter.getFormattedAge(worker.getBirthday());
                 String birthday = Converter.getFormattedBirthday(worker.getBirthday());
+                String avatar = Converter.getAvatarWorker(worker.getAvatarUrl(), worker);
                 String specialtyJSON = new Gson().toJson(worker.getSpecialty());
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragment_container, new DescWorkerFragment().newInstance(lastName, firstName, age, birthday, specialtyJSON))
+                        .replace(R.id.fragment_container, new DescWorkerFragment().newInstance(lastName, firstName, age, birthday, avatar, specialtyJSON))
                         .addToBackStack(null)
                         .commit();
             }
