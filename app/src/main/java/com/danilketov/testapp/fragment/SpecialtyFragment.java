@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,7 @@ public class SpecialtyFragment extends Fragment {
     private RecyclerView recyclerView;
     private SpecialAdapter adapter;
     private HttpClient httpClient;
+    private ProgressBar progressBar;
 
     @Nullable
     @Override
@@ -40,6 +42,8 @@ public class SpecialtyFragment extends Fragment {
 
         httpClient = new HttpClient();
 
+        progressBar = view.findViewById(R.id.progress_bar);
+
         updateContent();
 
         return view;
@@ -50,6 +54,11 @@ public class SpecialtyFragment extends Fragment {
     }
 
     private class GetSpecialtyAsyncTask extends AsyncTask<String, Void, ArrayList<Specialty>> {
+
+        @Override
+        protected void onPreExecute() {
+            progressBar.setVisibility(View.VISIBLE);
+        }
 
         @Override
         protected ArrayList<Specialty> doInBackground(String... queries) {
@@ -64,6 +73,7 @@ public class SpecialtyFragment extends Fragment {
 
         @Override
         protected void onPostExecute(ArrayList<Specialty> result) {
+            progressBar.setVisibility(View.GONE);
 
             if(result != null) {
                 adapter.addItems(result);

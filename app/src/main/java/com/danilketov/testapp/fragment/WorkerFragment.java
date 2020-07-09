@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,7 @@ public class WorkerFragment extends Fragment {
     private RecyclerView recyclerView;
     private WorkerAdapter adapter;
     private HttpClient httpClient;
+    private ProgressBar progressBar;
 
     @Nullable
     @Override
@@ -37,6 +39,8 @@ public class WorkerFragment extends Fragment {
 
         setSettingsToolbar();
         initRecyclerView(view);
+
+        progressBar = view.findViewById(R.id.progress_bar);
 
         httpClient = new HttpClient();
 
@@ -52,6 +56,12 @@ public class WorkerFragment extends Fragment {
     private class GetWorkerAsyncTask extends AsyncTask<String, Void, ArrayList<Worker>> {
 
         @Override
+        protected void onPreExecute() {
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+
+        @Override
         protected ArrayList<Worker> doInBackground(String... queries) {
             try {
                 return httpClient.getWorkersInfo();
@@ -63,6 +73,7 @@ public class WorkerFragment extends Fragment {
 
         @Override
         protected void onPostExecute(ArrayList<Worker> result) {
+            progressBar.setVisibility(View.GONE);
 
             if(result != null) {
                 adapter.addItems(result);
