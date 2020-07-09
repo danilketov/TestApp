@@ -19,6 +19,16 @@ public class SpecialAdapter extends RecyclerView.Adapter<SpecialAdapter.SpecialV
 
     private List<Specialty> specialties = new ArrayList<>();
 
+    private OnInfoSpecialClickListener onInfoSpecialClickListener;
+
+    public SpecialAdapter(OnInfoSpecialClickListener onInfoSpecialClickListener) {
+        this.onInfoSpecialClickListener = onInfoSpecialClickListener;
+    }
+
+    public interface OnInfoSpecialClickListener {
+        void onInfoSpecialClick (Specialty specialty);
+    }
+
     @NonNull
     @Override
     public SpecialViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -49,6 +59,14 @@ public class SpecialAdapter extends RecyclerView.Adapter<SpecialAdapter.SpecialV
             super(itemView);
 
             specialtyTextView = itemView.findViewById(R.id.specialty_text_view);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Specialty specialty = specialties.get(getLayoutPosition());
+                    onInfoSpecialClickListener.onInfoSpecialClick(specialty);
+                }
+            });
         }
 
         void bind(Specialty specialty) {

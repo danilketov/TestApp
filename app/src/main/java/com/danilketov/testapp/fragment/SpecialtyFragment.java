@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.danilketov.testapp.R;
 import com.danilketov.testapp.adapter.SpecialAdapter;
+import com.danilketov.testapp.entity.Specialty;
 
 public class SpecialtyFragment extends Fragment {
 
@@ -34,7 +35,17 @@ public class SpecialtyFragment extends Fragment {
     private void initRecyclerView(View view) {
         recyclerView = view.findViewById(R.id.special_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new SpecialAdapter();
+        SpecialAdapter.OnInfoSpecialClickListener listener = new SpecialAdapter.OnInfoSpecialClickListener() {
+            @Override
+            public void onInfoSpecialClick(Specialty specialty) {
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new WorkerFragment())
+                        .addToBackStack(null)
+                        .commit();
+            }
+        };
+        adapter = new SpecialAdapter(listener);
         recyclerView.setAdapter(adapter);
     }
 }

@@ -19,6 +19,16 @@ public class WorkerAdapter extends RecyclerView.Adapter<WorkerAdapter.WorkerView
 
     private List<Worker> workers = new ArrayList<>();
 
+    private OnInfoWorkerClickListener onInfoWorkerClickListener;
+
+    public WorkerAdapter(OnInfoWorkerClickListener onInfoWorkerClickListener) {
+        this.onInfoWorkerClickListener = onInfoWorkerClickListener;
+    }
+
+    public interface OnInfoWorkerClickListener {
+        void onInfoWorkerClick (Worker worker);
+    }
+
     @NonNull
     @Override
     public WorkerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -53,6 +63,14 @@ public class WorkerAdapter extends RecyclerView.Adapter<WorkerAdapter.WorkerView
             firstNameTextView = itemView.findViewById(R.id.first_name_text_view);
             lastNameTextView = itemView.findViewById(R.id.last_name_text_view);
             ageTextView = itemView.findViewById(R.id.age_text_view);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Worker worker = workers.get(getLayoutPosition());
+                    onInfoWorkerClickListener.onInfoWorkerClick(worker);
+                }
+            });
         }
 
         void bind(Worker worker) {

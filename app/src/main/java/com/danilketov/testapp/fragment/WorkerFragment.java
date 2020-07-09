@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.danilketov.testapp.R;
 import com.danilketov.testapp.adapter.WorkerAdapter;
+import com.danilketov.testapp.entity.Worker;
 
 public class WorkerFragment extends Fragment {
 
@@ -34,7 +35,17 @@ public class WorkerFragment extends Fragment {
     private void initRecyclerView(View view) {
         recyclerView = view.findViewById(R.id.worker_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new WorkerAdapter();
+        WorkerAdapter.OnInfoWorkerClickListener listener = new WorkerAdapter.OnInfoWorkerClickListener() {
+            @Override
+            public void onInfoWorkerClick(Worker worker) {
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new DescWorkerFragment())
+                        .addToBackStack(null)
+                        .commit();
+            }
+        };
+        adapter = new WorkerAdapter(listener);
         recyclerView.setAdapter(adapter);
     }
 
