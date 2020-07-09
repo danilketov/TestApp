@@ -1,15 +1,20 @@
 package com.danilketov.testapp.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class Worker {
 
+    @SerializedName("f_name")
     private String firstName;
 
+    @SerializedName("l_name")
     private String lastName;
 
     private String birthday;
 
+    @SerializedName("avatr_url")
     private String avatarUrl;
 
     private List<Specialty> specialty;

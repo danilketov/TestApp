@@ -1,9 +1,11 @@
 package com.danilketov.testapp.fragment;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,11 +17,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.danilketov.testapp.R;
 import com.danilketov.testapp.adapter.WorkerAdapter;
 import com.danilketov.testapp.entity.Worker;
+import com.danilketov.testapp.network.HttpClient;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class WorkerFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private WorkerAdapter adapter;
+    private HttpClient httpClient;
 
     @Nullable
     @Override
@@ -31,7 +38,38 @@ public class WorkerFragment extends Fragment {
         setSettingsToolbar();
         initRecyclerView(view);
 
+        httpClient = new HttpClient();
+
+        updateContent();
+
         return view;
+    }
+
+    private void updateContent() {
+        new GetWorkerAsyncTask().execute();
+    }
+
+    private class GetWorkerAsyncTask extends AsyncTask<String, Void, ArrayList<Worker>> {
+
+        @Override
+        protected ArrayList<Worker> doInBackground(String... queries) {
+            try {
+                return httpClient.getWorkersInfo();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Worker> result) {
+
+            if(result != null) {
+                adapter.addItems(result);
+            } else {
+                Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void initRecyclerView(View view) {

@@ -51,6 +51,19 @@ public class SpecialAdapter extends RecyclerView.Adapter<SpecialAdapter.SpecialV
         return specialties.size();
     }
 
+    public void addItems(List<Specialty> items) {
+        addUniqueItems(items);
+        notifyDataSetChanged();
+    }
+
+    private void addUniqueItems(List<Specialty> items) {
+        for (Specialty specialty: items) {
+            if (!specialties.contains(specialty)) {
+                specialties.add(specialty);
+            }
+        }
+    }
+
     class SpecialViewHolder extends RecyclerView.ViewHolder {
 
         private TextView specialtyTextView;

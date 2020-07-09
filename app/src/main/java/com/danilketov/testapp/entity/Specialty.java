@@ -1,7 +1,10 @@
 package com.danilketov.testapp.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Specialty {
 
+    @SerializedName("specialty_id")
     private int id;
     private String name;
 

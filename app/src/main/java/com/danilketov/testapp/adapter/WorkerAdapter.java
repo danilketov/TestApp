@@ -51,6 +51,11 @@ public class WorkerAdapter extends RecyclerView.Adapter<WorkerAdapter.WorkerView
         return workers.size();
     }
 
+    public void addItems(List<Worker> items) {
+        workers.addAll(items);
+        notifyDataSetChanged();
+    }
+
     class WorkerViewHolder extends RecyclerView.ViewHolder {
 
         private TextView firstNameTextView;
