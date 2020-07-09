@@ -19,7 +19,7 @@ import com.danilketov.testapp.R;
 import com.danilketov.testapp.adapter.WorkerAdapter;
 import com.danilketov.testapp.entity.Worker;
 import com.danilketov.testapp.network.HttpClient;
-import com.google.gson.Gson;
+import com.danilketov.testapp.utils.Filter;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -77,7 +77,8 @@ public class WorkerFragment extends Fragment {
         protected void onPostExecute(ArrayList<Worker> result) {
             progressBar.setVisibility(View.GONE);
 
-            if(result != null) {
+            if(result != null && getNameSpecialty()!= null) {
+                result = Filter.getFilteredWorkers(result, getNameSpecialty());
                 adapter.addItems(result);
             } else {
                 Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
