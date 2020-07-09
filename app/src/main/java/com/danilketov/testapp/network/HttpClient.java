@@ -17,6 +17,7 @@ import okhttp3.Response;
 public class HttpClient {
 
     private static final String URL = "https://gitlab.65apps.com/65gb/static/raw/master/testTask.json";
+    private final JsonParser jsonParser = new JsonParser();
     private OkHttpClient client = new OkHttpClient.Builder()
             .build();
 
@@ -29,7 +30,7 @@ public class HttpClient {
 
         String response = getResponse(requestUrl);
 
-        return null;
+        return jsonParser.getWorkersInfo(response);
     }
 
     public ArrayList<Specialty> getSpecialtyInfo() throws IOException {
@@ -41,7 +42,7 @@ public class HttpClient {
 
         String response = getResponse(requestUrl);
 
-        return null;
+        return jsonParser.getSpecialtyInfo(response);
     }
 
     @NonNull
