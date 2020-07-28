@@ -15,18 +15,18 @@ import com.danilketov.testapp.entity.Specialty;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SpecialAdapter extends RecyclerView.Adapter<SpecialAdapter.SpecialViewHolder> {
+public class SpecialtyAdapter extends RecyclerView.Adapter<SpecialtyAdapter.SpecialViewHolder> {
 
     private List<Specialty> specialties = new ArrayList<>();
 
     private OnInfoSpecialClickListener onInfoSpecialClickListener;
 
-    public SpecialAdapter(OnInfoSpecialClickListener onInfoSpecialClickListener) {
+    public SpecialtyAdapter(OnInfoSpecialClickListener onInfoSpecialClickListener) {
         this.onInfoSpecialClickListener = onInfoSpecialClickListener;
     }
 
     public interface OnInfoSpecialClickListener {
-        void onInfoSpecialClick (Specialty specialty);
+        void onInfoSpecialClick(Specialty specialty);
     }
 
     @NonNull
@@ -57,7 +57,7 @@ public class SpecialAdapter extends RecyclerView.Adapter<SpecialAdapter.SpecialV
     }
 
     private void addUniqueItems(List<Specialty> items) {
-        for (Specialty specialty: items) {
+        for (Specialty specialty : items) {
             if (!specialties.contains(specialty)) {
                 specialties.add(specialty);
             }

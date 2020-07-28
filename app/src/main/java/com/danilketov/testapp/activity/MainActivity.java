@@ -1,10 +1,10 @@
 package com.danilketov.testapp.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.os.Bundle;
 import android.view.MenuItem;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.danilketov.testapp.R;
 import com.danilketov.testapp.fragment.SpecialtyFragment;
@@ -19,8 +19,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         setToolbar();
+        createStartFragment(savedInstanceState);
+    }
 
-        if(savedInstanceState == null) {
+    private void createStartFragment(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
                     .add(R.id.fragment_container, new SpecialtyFragment())
@@ -35,9 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
         }
         return super.onOptionsItemSelected(item);
     }

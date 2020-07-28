@@ -37,7 +37,6 @@ public class WorkerFragment extends Fragment {
     private ProgressBar progressBar;
     private DataRepository dataRepository;
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -86,7 +85,7 @@ public class WorkerFragment extends Fragment {
         protected void onPostExecute(ArrayList<Worker> result) {
             progressBar.setVisibility(View.GONE);
 
-            if(result != null && getNameSpecialty()!= null) {
+            if (result != null && getNameSpecialty() != null) {
                 result = Filter.getFilteredWorkers(result, getNameSpecialty());
                 adapter.addItems(result);
             } else {
@@ -95,6 +94,7 @@ public class WorkerFragment extends Fragment {
         }
     }
 
+    @Nullable
     private String getNameSpecialty() {
         Bundle args = getArguments();
         String nameSpecialty = null;

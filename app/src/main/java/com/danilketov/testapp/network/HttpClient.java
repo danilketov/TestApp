@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import com.danilketov.testapp.entity.Specialty;
 import com.danilketov.testapp.entity.Worker;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -21,6 +23,7 @@ public class HttpClient {
     private OkHttpClient client = new OkHttpClient.Builder()
             .build();
 
+    @NotNull
     public ArrayList<Worker> getWorkersInfo() throws IOException {
 
         String requestUrl = Uri.parse(URL)
@@ -33,6 +36,7 @@ public class HttpClient {
         return jsonParser.getWorkersInfo(response);
     }
 
+    @NotNull
     public ArrayList<Specialty> getSpecialtyInfo() throws IOException {
 
         String requestUrl = Uri.parse(URL)

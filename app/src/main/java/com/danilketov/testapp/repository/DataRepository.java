@@ -6,6 +6,8 @@ import com.danilketov.testapp.entity.Specialty;
 import com.danilketov.testapp.entity.Worker;
 import com.danilketov.testapp.network.HttpClient;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -14,8 +16,9 @@ public class DataRepository {
     private HttpClient httpClient = App.getHttpClient();
     private AppDatabase db = App.getAppDatabase();
 
+    @Nullable
     public ArrayList<Worker> getWorkers() throws IOException {
-        ArrayList<Worker> workers = null;
+        ArrayList<Worker> workers;
         try {
 
             workers = httpClient.getWorkersInfo();
@@ -30,8 +33,9 @@ public class DataRepository {
         return workers;
     }
 
+    @Nullable
     public ArrayList<Specialty> getSpecialties() throws IOException {
-        ArrayList<Specialty> specialties = null;
+        ArrayList<Specialty> specialties;
         try {
 
             specialties = httpClient.getSpecialtyInfo();

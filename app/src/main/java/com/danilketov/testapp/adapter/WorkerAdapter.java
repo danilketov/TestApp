@@ -29,7 +29,7 @@ public class WorkerAdapter extends RecyclerView.Adapter<WorkerAdapter.WorkerView
     }
 
     public interface OnInfoWorkerClickListener {
-        void onInfoWorkerClick (Worker worker);
+        void onInfoWorkerClick(Worker worker);
     }
 
     @NonNull

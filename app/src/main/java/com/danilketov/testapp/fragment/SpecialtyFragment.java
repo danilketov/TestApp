@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.danilketov.testapp.App;
 import com.danilketov.testapp.R;
-import com.danilketov.testapp.adapter.SpecialAdapter;
+import com.danilketov.testapp.adapter.SpecialtyAdapter;
 import com.danilketov.testapp.entity.Specialty;
 import com.danilketov.testapp.network.HttpClient;
 import com.danilketov.testapp.repository.DataRepository;
@@ -28,7 +28,7 @@ import java.util.ArrayList;
 public class SpecialtyFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private SpecialAdapter adapter;
+    private SpecialtyAdapter adapter;
     private HttpClient httpClient;
     private ProgressBar progressBar;
     private DataRepository dataRepository;
@@ -80,7 +80,7 @@ public class SpecialtyFragment extends Fragment {
         protected void onPostExecute(ArrayList<Specialty> result) {
             progressBar.setVisibility(View.GONE);
 
-            if(result != null) {
+            if (result != null) {
                 adapter.addItems(result);
             } else {
                 Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
@@ -91,7 +91,7 @@ public class SpecialtyFragment extends Fragment {
     private void initRecyclerView(View view) {
         recyclerView = view.findViewById(R.id.special_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        SpecialAdapter.OnInfoSpecialClickListener listener = new SpecialAdapter.OnInfoSpecialClickListener() {
+        SpecialtyAdapter.OnInfoSpecialClickListener listener = new SpecialtyAdapter.OnInfoSpecialClickListener() {
             @Override
             public void onInfoSpecialClick(Specialty specialty) {
                 getActivity().getSupportFragmentManager()
@@ -101,7 +101,7 @@ public class SpecialtyFragment extends Fragment {
                         .commit();
             }
         };
-        adapter = new SpecialAdapter(listener);
+        adapter = new SpecialtyAdapter(listener);
         recyclerView.setAdapter(adapter);
     }
 

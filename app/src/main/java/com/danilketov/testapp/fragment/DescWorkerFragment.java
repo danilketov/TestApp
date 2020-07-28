@@ -96,8 +96,9 @@ public class DescWorkerFragment extends Fragment {
         specialtyTextView = view.findViewById(R.id.value_special_text_view);
         circleAvatarImageView = view.findViewById(R.id.avatar_circle_image_view);
     }
+
     private void setSettingsToolbar() {
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.toolbar_title_desc_worker);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.toolbar_title_desc_worker);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
