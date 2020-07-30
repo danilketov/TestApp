@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.danilketov.testapp.R;
+import com.danilketov.testapp.databinding.FragmentDescWorkerBinding;
 import com.danilketov.testapp.utils.Const;
 import com.danilketov.testapp.utils.Filter;
 import com.squareup.picasso.Picasso;
@@ -21,22 +20,17 @@ import com.squareup.picasso.Picasso;
 
 public class DescWorkerFragment extends Fragment {
 
-    private TextView firstNameTextView;
-    private TextView lastNameTextView;
-    private TextView ageTextView;
-    private TextView birthdayTextView;
-    private TextView specialtyTextView;
-    private ImageView circleAvatarImageView;
+    FragmentDescWorkerBinding binding;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_desc_worker, container, false);
+        binding = FragmentDescWorkerBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
 
         setSettingsToolbar();
-        initView(view);
         getSetData();
 
         return view;
@@ -53,17 +47,17 @@ public class DescWorkerFragment extends Fragment {
             String specialtyJSON = args.getString(Const.KEY_SPECIALTY_JSON);
             String specialtyText = Filter.getSpecialtyText(specialtyJSON);
 
-            lastNameTextView.setText(lastName);
-            firstNameTextView.setText(firstName);
-            ageTextView.setText(age);
-            birthdayTextView.setText(birthday);
-            specialtyTextView.setText(specialtyText);
+            binding.valueLastNameTextView.setText(lastName);
+            binding.valueFirstNameTextView.setText(firstName);
+            binding.valueAgeTextView.setText(age);
+            binding.valueBirthdayTextView.setText(birthday);
+            binding.valueSpecialTextView.setText(specialtyText);
 
             Picasso.get()
                     .load(avatar)
                     .fit()
                     .placeholder(R.drawable.no_avatar)
-                    .into(circleAvatarImageView);
+                    .into(binding.avatarCircleImageView);
 
         } else {
             Toast.makeText(getActivity(), R.string.frag_args_null, Toast.LENGTH_SHORT).show();
@@ -88,18 +82,15 @@ public class DescWorkerFragment extends Fragment {
         return fragment;
     }
 
-    private void initView(View view) {
-        firstNameTextView = view.findViewById(R.id.value_first_name_text_view);
-        lastNameTextView = view.findViewById(R.id.value_last_name_text_view);
-        ageTextView = view.findViewById(R.id.value_age_text_view);
-        birthdayTextView = view.findViewById(R.id.value_birthday_text_view);
-        specialtyTextView = view.findViewById(R.id.value_special_text_view);
-        circleAvatarImageView = view.findViewById(R.id.avatar_circle_image_view);
-    }
-
     private void setSettingsToolbar() {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.toolbar_title_desc_worker);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

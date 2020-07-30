@@ -2,24 +2,31 @@ package com.danilketov.testapp.activity;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.danilketov.testapp.R;
+import com.danilketov.testapp.databinding.ActivityMainBinding;
 import com.danilketov.testapp.fragment.SpecialtyFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Toolbar toolbar;
+    ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
+        setViewBinding();
         setToolbar();
         createStartFragment(savedInstanceState);
+    }
+
+    private void setViewBinding() {
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
     }
 
     private void createStartFragment(Bundle savedInstanceState) {
@@ -32,8 +39,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setToolbar() {
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar);
     }
 
     @Override
@@ -42,5 +48,11 @@ public class MainActivity extends AppCompatActivity {
             onBackPressed();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        binding = null;
     }
 }

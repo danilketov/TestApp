@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -13,11 +12,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.danilketov.testapp.App;
 import com.danilketov.testapp.R;
 import com.danilketov.testapp.adapter.WorkerAdapter;
+import com.danilketov.testapp.databinding.FragmentWorkerBinding;
 import com.danilketov.testapp.entity.Worker;
 import com.danilketov.testapp.network.HttpClient;
 import com.danilketov.testapp.repository.DataRepository;
@@ -31,10 +30,9 @@ import java.util.ArrayList;
 
 public class WorkerFragment extends Fragment {
 
-    private RecyclerView recyclerView;
+    FragmentWorkerBinding binding;
     private WorkerAdapter adapter;
     private HttpClient httpClient;
-    private ProgressBar progressBar;
     private DataRepository dataRepository;
 
     @Nullable
@@ -42,13 +40,12 @@ public class WorkerFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_worker, container, false);
+        binding = FragmentWorkerBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
 
         setSettingsToolbar();
-        initRecyclerView(view);
+        initRecyclerView();
         getNameSpecialty();
-
-        progressBar = view.findViewById(R.id.progress_bar);
 
         httpClient = new HttpClient();
 
@@ -67,7 +64,7 @@ public class WorkerFragment extends Fragment {
 
         @Override
         protected void onPreExecute() {
-            progressBar.setVisibility(View.VISIBLE);
+            binding.progressBar.setVisibility(View.VISIBLE);
         }
 
 
@@ -83,7 +80,7 @@ public class WorkerFragment extends Fragment {
 
         @Override
         protected void onPostExecute(ArrayList<Worker> result) {
-            progressBar.setVisibility(View.GONE);
+            binding.progressBar.setVisibility(View.GONE);
 
             if (result != null && getNameSpecialty() != null) {
                 result = Filter.getFilteredWorkers(result, getNameSpecialty());
@@ -112,9 +109,8 @@ public class WorkerFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
-    private void initRecyclerView(View view) {
-        recyclerView = view.findViewById(R.id.worker_recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    private void initRecyclerView() {
+        binding.workerRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         WorkerAdapter.OnInfoWorkerClickListener listener = new WorkerAdapter.OnInfoWorkerClickListener() {
             @Override
             public void onInfoWorkerClick(Worker worker) {
@@ -133,7 +129,7 @@ public class WorkerFragment extends Fragment {
             }
         };
         adapter = new WorkerAdapter(listener);
-        recyclerView.setAdapter(adapter);
+        binding.workerRecyclerView.setAdapter(adapter);
     }
 
     public static Fragment newInstance(String specialty) {
@@ -142,5 +138,11 @@ public class WorkerFragment extends Fragment {
         WorkerFragment fragment = new WorkerFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        binding = null;
     }
 }
