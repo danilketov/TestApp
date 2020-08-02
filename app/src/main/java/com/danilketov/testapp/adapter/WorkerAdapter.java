@@ -22,7 +22,7 @@ public class WorkerAdapter extends RecyclerView.Adapter<WorkerAdapter.WorkerView
 
     private List<Worker> workers = new ArrayList<>();
 
-    private OnInfoWorkerClickListener onInfoWorkerClickListener;
+    private final OnInfoWorkerClickListener onInfoWorkerClickListener;
 
     public WorkerAdapter(OnInfoWorkerClickListener onInfoWorkerClickListener) {
         this.onInfoWorkerClickListener = onInfoWorkerClickListener;
@@ -77,8 +77,11 @@ public class WorkerAdapter extends RecyclerView.Adapter<WorkerAdapter.WorkerView
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Worker worker = workers.get(getLayoutPosition());
-                    onInfoWorkerClickListener.onInfoWorkerClick(worker);
+                    int adapterPos = getAdapterPosition();
+                    if (adapterPos != RecyclerView.NO_POSITION) {
+                        Worker worker = workers.get(adapterPos);
+                        onInfoWorkerClickListener.onInfoWorkerClick(worker);
+                    }
                 }
             });
         }

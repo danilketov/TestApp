@@ -13,6 +13,8 @@ import java.util.List;
 @Entity
 public class Worker {
 
+    private int id;
+
     @PrimaryKey
     @NonNull
     @SerializedName("f_name")
@@ -29,7 +31,8 @@ public class Worker {
     @TypeConverters(CustomTypeConverter.class)
     private List<Specialty> specialty;
 
-    public Worker(String firstName, String lastName, String birthday, String avatarUrl, List<Specialty> specialty) {
+    public Worker(int id, @NonNull String firstName, String lastName, String birthday, String avatarUrl, List<Specialty> specialty) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthday = birthday;
@@ -37,11 +40,20 @@ public class Worker {
         this.specialty = specialty;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @NonNull
     public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    public void setFirstName(@NonNull String firstName) {
         this.firstName = firstName;
     }
 
@@ -84,27 +96,33 @@ public class Worker {
 
         Worker worker = (Worker) o;
 
+        if (id != worker.id) return false;
         if (!firstName.equals(worker.firstName)) return false;
-        if (!lastName.equals(worker.lastName)) return false;
-        if (!birthday.equals(worker.birthday)) return false;
-        if (!avatarUrl.equals(worker.avatarUrl)) return false;
-        return specialty.equals(worker.specialty);
+        if (lastName != null ? !lastName.equals(worker.lastName) : worker.lastName != null)
+            return false;
+        if (birthday != null ? !birthday.equals(worker.birthday) : worker.birthday != null)
+            return false;
+        if (avatarUrl != null ? !avatarUrl.equals(worker.avatarUrl) : worker.avatarUrl != null)
+            return false;
+        return specialty != null ? specialty.equals(worker.specialty) : worker.specialty == null;
     }
 
     @Override
     public int hashCode() {
-        int result = firstName.hashCode();
-        result = 31 * result + lastName.hashCode();
-        result = 31 * result + birthday.hashCode();
-        result = 31 * result + avatarUrl.hashCode();
-        result = 31 * result + specialty.hashCode();
+        int result = id;
+        result = 31 * result + firstName.hashCode();
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
+        result = 31 * result + (avatarUrl != null ? avatarUrl.hashCode() : 0);
+        result = 31 * result + (specialty != null ? specialty.hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
         return "Worker{" +
-                "firstName='" + firstName + '\'' +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", birthday='" + birthday + '\'' +
                 ", avatarUrl='" + avatarUrl + '\'' +

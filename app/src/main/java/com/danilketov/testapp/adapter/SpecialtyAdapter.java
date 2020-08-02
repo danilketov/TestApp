@@ -19,7 +19,7 @@ public class SpecialtyAdapter extends RecyclerView.Adapter<SpecialtyAdapter.Spec
 
     private List<Specialty> specialties = new ArrayList<>();
 
-    private OnInfoSpecialClickListener onInfoSpecialClickListener;
+    private final OnInfoSpecialClickListener onInfoSpecialClickListener;
 
     public SpecialtyAdapter(OnInfoSpecialClickListener onInfoSpecialClickListener) {
         this.onInfoSpecialClickListener = onInfoSpecialClickListener;
@@ -76,8 +76,11 @@ public class SpecialtyAdapter extends RecyclerView.Adapter<SpecialtyAdapter.Spec
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Specialty specialty = specialties.get(getLayoutPosition());
-                    onInfoSpecialClickListener.onInfoSpecialClick(specialty);
+                    int adapterPos = getAdapterPosition();
+                    if (adapterPos != RecyclerView.NO_POSITION) {
+                        Specialty specialty = specialties.get(adapterPos);
+                        onInfoSpecialClickListener.onInfoSpecialClick(specialty);
+                    }
                 }
             });
         }
