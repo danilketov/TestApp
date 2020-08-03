@@ -30,7 +30,7 @@ import java.util.ArrayList;
 
 public class WorkerFragment extends Fragment {
 
-    FragmentWorkerBinding binding;
+    private FragmentWorkerBinding binding;
     private WorkerAdapter adapter;
     private HttpClient httpClient;
     private DataRepository dataRepository;
@@ -111,6 +111,7 @@ public class WorkerFragment extends Fragment {
 
     private void initRecyclerView() {
         binding.workerRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binding.workerRecyclerView.setItemAnimator(null);
         WorkerAdapter.OnInfoWorkerClickListener listener = new WorkerAdapter.OnInfoWorkerClickListener() {
             @Override
             public void onInfoWorkerClick(Worker worker) {

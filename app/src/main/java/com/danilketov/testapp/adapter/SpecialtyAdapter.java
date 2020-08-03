@@ -7,10 +7,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.danilketov.testapp.R;
 import com.danilketov.testapp.entity.Specialty;
+import com.danilketov.testapp.utils.SpecialtyDiffUtilCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,8 +54,7 @@ public class SpecialtyAdapter extends RecyclerView.Adapter<SpecialtyAdapter.Spec
     }
 
     public void addItems(List<Specialty> items) {
-        addUniqueItems(items);
-        notifyDataSetChanged();
+        checkUpdateItems(items);
     }
 
     private void addUniqueItems(List<Specialty> items) {
@@ -62,6 +63,14 @@ public class SpecialtyAdapter extends RecyclerView.Adapter<SpecialtyAdapter.Spec
                 specialties.add(specialty);
             }
         }
+    }
+
+    private void checkUpdateItems(List<Specialty> specialties) {
+        final SpecialtyDiffUtilCallback diffCallback = new SpecialtyDiffUtilCallback(this.specialties, specialties);
+        final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
+        this.specialties.clear();
+        addUniqueItems(specialties);
+        diffResult.dispatchUpdatesTo(this);
     }
 
     class SpecialViewHolder extends RecyclerView.ViewHolder {

@@ -8,11 +8,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.danilketov.testapp.R;
 import com.danilketov.testapp.entity.Worker;
 import com.danilketov.testapp.utils.Converter;
+import com.danilketov.testapp.utils.WorkerDiffUtilCallback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -55,8 +57,15 @@ public class WorkerAdapter extends RecyclerView.Adapter<WorkerAdapter.WorkerView
     }
 
     public void addItems(List<Worker> items) {
-        workers.addAll(items);
-        notifyDataSetChanged();
+        checkUpdateItems(items);
+    }
+
+    private void checkUpdateItems(List<Worker> workers) {
+        final WorkerDiffUtilCallback diffCallback = new WorkerDiffUtilCallback(this.workers, workers);
+        final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
+        this.workers.clear();
+        this.workers.addAll(workers);
+        diffResult.dispatchUpdatesTo(this);
     }
 
     class WorkerViewHolder extends RecyclerView.ViewHolder {

@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 public class SpecialtyFragment extends Fragment {
 
-    FragmentSpecialBinding binding;
+    private FragmentSpecialBinding binding;
     private SpecialtyAdapter adapter;
     private HttpClient httpClient;
     private DataRepository dataRepository;
@@ -87,6 +87,7 @@ public class SpecialtyFragment extends Fragment {
 
     private void initRecyclerView() {
         binding.specialRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binding.specialRecyclerView.setItemAnimator(null);
         SpecialtyAdapter.OnInfoSpecialClickListener listener = new SpecialtyAdapter.OnInfoSpecialClickListener() {
             @Override
             public void onInfoSpecialClick(Specialty specialty) {
