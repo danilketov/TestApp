@@ -1,6 +1,5 @@
 package com.danilketov.testapp.fragment;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,24 +15,30 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.danilketov.testapp.App;
 import com.danilketov.testapp.R;
 import com.danilketov.testapp.adapter.WorkerAdapter;
+import com.danilketov.testapp.api.ApiFactory;
+import com.danilketov.testapp.api.ApiService;
 import com.danilketov.testapp.databinding.FragmentWorkerBinding;
+import com.danilketov.testapp.entity.Response;
 import com.danilketov.testapp.entity.Worker;
-import com.danilketov.testapp.network.HttpClient;
 import com.danilketov.testapp.repository.DataRepository;
 import com.danilketov.testapp.utils.Const;
 import com.danilketov.testapp.utils.Converter;
 import com.danilketov.testapp.utils.Filter;
 import com.google.gson.Gson;
 
-import java.io.IOException;
 import java.util.ArrayList;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class WorkerFragment extends Fragment {
 
     private FragmentWorkerBinding binding;
     private WorkerAdapter adapter;
-    private HttpClient httpClient;
     private DataRepository dataRepository;
+    private Disposable disposable;
 
     @Nullable
     @Override
@@ -47,48 +52,32 @@ public class WorkerFragment extends Fragment {
         initRecyclerView();
         getNameSpecialty();
 
-        httpClient = new HttpClient();
+        ApiFactory apiFactory = ApiFactory.getInstance();
+        ApiService apiService = apiFactory.getApiService();
+        disposable = apiService.getResponse()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Response>() {
+                    @Override
+                    public void accept(Response response) throws Throwable {
+                        ArrayList<Worker> result = response.getResponse();
+                        if (result != null && getNameSpecialty() != null) {
+                            result = Filter.getFilteredWorkers(result, getNameSpecialty());
+                            adapter.addItems(result);
+                        } else {
+                            Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Throwable {
+                        Toast.makeText(getActivity(), throwable.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
 
         dataRepository = App.getDataRepository();
 
-        updateContent();
-
         return view;
-    }
-
-    private void updateContent() {
-        new GetWorkerAsyncTask().execute();
-    }
-
-    private class GetWorkerAsyncTask extends AsyncTask<String, Void, ArrayList<Worker>> {
-
-        @Override
-        protected void onPreExecute() {
-            binding.progressBar.setVisibility(View.VISIBLE);
-        }
-
-
-        @Override
-        protected ArrayList<Worker> doInBackground(String... queries) {
-            try {
-                return dataRepository.getWorkers();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<Worker> result) {
-            binding.progressBar.setVisibility(View.GONE);
-
-            if (result != null && getNameSpecialty() != null) {
-                result = Filter.getFilteredWorkers(result, getNameSpecialty());
-                adapter.addItems(result);
-            } else {
-                Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
-            }
-        }
     }
 
     @Nullable
@@ -142,8 +131,17 @@ public class WorkerFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         binding = null;
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (disposable != null) {
+            disposable.dispose();
+        }
+    }
+
 }
