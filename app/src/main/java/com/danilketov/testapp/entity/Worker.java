@@ -13,10 +13,10 @@ import java.util.List;
 @Entity
 public class Worker {
 
+    @PrimaryKey(autoGenerate = true)
+    @NonNull
     private int id;
 
-    @PrimaryKey
-    @NonNull
     @SerializedName("f_name")
     private String firstName;
 

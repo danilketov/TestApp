@@ -10,28 +10,24 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.danilketov.testapp.App;
 import com.danilketov.testapp.R;
 import com.danilketov.testapp.adapter.WorkerAdapter;
-import com.danilketov.testapp.api.ApiFactory;
-import com.danilketov.testapp.api.ApiService;
 import com.danilketov.testapp.databinding.FragmentWorkerBinding;
-import com.danilketov.testapp.entity.Response;
 import com.danilketov.testapp.entity.Worker;
 import com.danilketov.testapp.repository.DataRepository;
 import com.danilketov.testapp.utils.Const;
 import com.danilketov.testapp.utils.Converter;
 import com.danilketov.testapp.utils.Filter;
+import com.danilketov.testapp.viewmodel.WorkerViewModel;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.functions.Consumer;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class WorkerFragment extends Fragment {
 
@@ -39,6 +35,8 @@ public class WorkerFragment extends Fragment {
     private WorkerAdapter adapter;
     private DataRepository dataRepository;
     private Disposable disposable;
+
+    private WorkerViewModel viewModel;
 
     @Nullable
     @Override
@@ -52,30 +50,44 @@ public class WorkerFragment extends Fragment {
         initRecyclerView();
         getNameSpecialty();
 
-        ApiFactory apiFactory = ApiFactory.getInstance();
-        ApiService apiService = apiFactory.getApiService();
-        disposable = apiService.getResponse()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Response>() {
-                    @Override
-                    public void accept(Response response) throws Throwable {
-                        ArrayList<Worker> result = response.getResponse();
-                        if (result != null && getNameSpecialty() != null) {
-                            result = Filter.getFilteredWorkers(result, getNameSpecialty());
-                            adapter.addItems(result);
-                        } else {
-                            Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Throwable {
-                        Toast.makeText(getActivity(), throwable.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                });
+        viewModel = ViewModelProviders.of(this).get(WorkerViewModel.class);
+        viewModel.getWorkers().observe(this, new Observer<ArrayList<Worker>>() {
+            @Override
+            public void onChanged(ArrayList<Worker> workers) {
+                if (workers != null && getNameSpecialty() != null) {
+                    workers = Filter.getFilteredWorkers(workers, getNameSpecialty());
+                    adapter.addItems(workers);
+                } else {
+                    Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        viewModel.loadData();
 
-        dataRepository = App.getDataRepository();
+//        ApiFactory apiFactory = ApiFactory.getInstance();
+//        ApiService apiService = apiFactory.getApiService();
+//        disposable = apiService.getResponse()
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Consumer<Response>() {
+//                    @Override
+//                    public void accept(Response response) throws Throwable {
+//                        ArrayList<Worker> result = response.getResponse();
+//                        if (result != null && getNameSpecialty() != null) {
+//                            result = Filter.getFilteredWorkers(result, getNameSpecialty());
+//                            adapter.addItems(result);
+//                        } else {
+//                            Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                }, new Consumer<Throwable>() {
+//                    @Override
+//                    public void accept(Throwable throwable) throws Throwable {
+//                        Toast.makeText(getActivity(), throwable.getMessage(), Toast.LENGTH_LONG).show();
+//                    }
+//                });
+//
+//        dataRepository = App.getDataRepository();
 
         return view;
     }

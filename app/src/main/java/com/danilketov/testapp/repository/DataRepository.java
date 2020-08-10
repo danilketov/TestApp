@@ -17,15 +17,9 @@ public class DataRepository {
     private AppDatabase db = App.getAppDatabase();
 
     @Nullable
-    public ArrayList<Worker> getWorkers() throws IOException {
-        ArrayList<Worker> workers;
-        try {
-
-            workers = httpClient.getWorkersInfo();
-            db.repositoryDao().insertWorkers(workers);
-        } catch (IOException e) {
-            workers = (ArrayList<Worker>) db.repositoryDao().getWorkers();
-        }
+    public ArrayList<Worker> getWorkers(ArrayList<Worker> workers) throws IOException {
+        db.repositoryDao().insertWorkers(workers);
+        workers = (ArrayList<Worker>) db.repositoryDao().getWorkers();
 
         if (workers == null)
             throw new IOException("Can't find repositories entities in db");
@@ -37,7 +31,6 @@ public class DataRepository {
     public ArrayList<Specialty> getSpecialties() throws IOException {
         ArrayList<Specialty> specialties;
         try {
-
             specialties = httpClient.getSpecialtyInfo();
             db.repositoryDao().insertSpecialties(specialties);
         } catch (IOException e) {
