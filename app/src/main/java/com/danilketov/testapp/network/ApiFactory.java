@@ -1,4 +1,4 @@
-package com.danilketov.testapp.api;
+package com.danilketov.testapp.network;
 
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;

@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.danilketov.testapp.R;
 import com.danilketov.testapp.databinding.FragmentDescWorkerBinding;
+import com.danilketov.testapp.utils.Arguments;
 import com.danilketov.testapp.utils.Const;
 import com.danilketov.testapp.utils.Filter;
 import com.squareup.picasso.Picasso;
@@ -64,12 +65,13 @@ public class DescWorkerFragment extends Fragment {
         }
     }
 
-    public static Fragment newInstance(String lastName,
-                                       String firstName,
-                                       String age,
-                                       String birthday,
-                                       String avatar,
-                                       String specialtyJSON) {
+    public static Fragment newInstance(
+            String lastName,
+            String firstName,
+            String age,
+            String birthday,
+            String avatar,
+            String specialtyJSON) {
         Bundle args = new Bundle();
         args.putString(Const.KEY_WORKER_LAST_NAME, lastName);
         args.putString(Const.KEY_WORKER_FIRST_NAME, firstName);
@@ -81,6 +83,7 @@ public class DescWorkerFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
 
     private void setSettingsToolbar() {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.toolbar_title_desc_worker);

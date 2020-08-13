@@ -1,4 +1,4 @@
-package com.danilketov.testapp.api;
+package com.danilketov.testapp.network;
 
 import com.danilketov.testapp.entity.Response;
 

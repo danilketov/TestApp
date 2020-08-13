@@ -18,7 +18,6 @@ import com.danilketov.testapp.R;
 import com.danilketov.testapp.adapter.WorkerAdapter;
 import com.danilketov.testapp.databinding.FragmentWorkerBinding;
 import com.danilketov.testapp.entity.Worker;
-import com.danilketov.testapp.repository.DataRepository;
 import com.danilketov.testapp.utils.Const;
 import com.danilketov.testapp.utils.Converter;
 import com.danilketov.testapp.utils.Filter;
@@ -27,14 +26,10 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
-import io.reactivex.rxjava3.disposables.Disposable;
-
 public class WorkerFragment extends Fragment {
 
     private FragmentWorkerBinding binding;
     private WorkerAdapter adapter;
-    private DataRepository dataRepository;
-    private Disposable disposable;
 
     private WorkerViewModel viewModel;
 
@@ -64,45 +59,19 @@ public class WorkerFragment extends Fragment {
         });
         viewModel.loadData();
 
-//        ApiFactory apiFactory = ApiFactory.getInstance();
-//        ApiService apiService = apiFactory.getApiService();
-//        disposable = apiService.getResponse()
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Consumer<Response>() {
-//                    @Override
-//                    public void accept(Response response) throws Throwable {
-//                        ArrayList<Worker> result = response.getResponse();
-//                        if (result != null && getNameSpecialty() != null) {
-//                            result = Filter.getFilteredWorkers(result, getNameSpecialty());
-//                            adapter.addItems(result);
-//                        } else {
-//                            Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                }, new Consumer<Throwable>() {
-//                    @Override
-//                    public void accept(Throwable throwable) throws Throwable {
-//                        Toast.makeText(getActivity(), throwable.getMessage(), Toast.LENGTH_LONG).show();
-//                    }
-//                });
-//
-//        dataRepository = App.getDataRepository();
+        viewModel.isLoading().observe(this, (isLoading) -> {
+            if(isLoading != null) {
+                binding.progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+            }
+        });
+
+        viewModel.isNetworkException().observe(this, (isException) -> {
+            if(isException != null && isException) {
+                Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
+            }
+        });
 
         return view;
-    }
-
-    @Nullable
-    private String getNameSpecialty() {
-        Bundle args = getArguments();
-        String nameSpecialty = null;
-        if (args != null) {
-            nameSpecialty = args.getString(Const.KEY_WORKER_SPECIALTY);
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(nameSpecialty);
-        } else {
-            Toast.makeText(getActivity(), R.string.frag_args_null, Toast.LENGTH_SHORT).show();
-        }
-        return nameSpecialty;
     }
 
     private void setSettingsToolbar() {
@@ -134,6 +103,19 @@ public class WorkerFragment extends Fragment {
         binding.workerRecyclerView.setAdapter(adapter);
     }
 
+    @Nullable
+    private String getNameSpecialty() {
+        Bundle args = getArguments();
+        String nameSpecialty = null;
+        if (args != null) {
+            nameSpecialty = args.getString(Const.KEY_WORKER_SPECIALTY);
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(nameSpecialty);
+        } else {
+            Toast.makeText(getActivity(), R.string.frag_args_null, Toast.LENGTH_SHORT).show();
+        }
+        return nameSpecialty;
+    }
+
     public static Fragment newInstance(String specialty) {
         Bundle args = new Bundle();
         args.putString(Const.KEY_WORKER_SPECIALTY, specialty);
@@ -147,13 +129,4 @@ public class WorkerFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (disposable != null) {
-            disposable.dispose();
-        }
-    }
-
 }

@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.danilketov.testapp.App;
 import com.danilketov.testapp.entity.Response;
+import com.danilketov.testapp.entity.Specialty;
 import com.danilketov.testapp.entity.Worker;
 import com.danilketov.testapp.network.ApiFactory;
 import com.danilketov.testapp.network.ApiService;
@@ -21,18 +22,18 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class WorkerViewModel extends ViewModel {
+public class SpecialtyViewModel extends ViewModel {
 
     private DataRepository dataRepository = App.getDataRepository();
 
-    private MutableLiveData<ArrayList<Worker>> workers = new MutableLiveData<>();
+    private MutableLiveData<ArrayList<Specialty>> specialties = new MutableLiveData<>();
     private MutableLiveData<Boolean> isNetworkException = new MutableLiveData<>();
     private MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
 
     private Disposable disposable;
 
-    public LiveData<ArrayList<Worker>> getWorkers() {
-        return workers;
+    public LiveData<ArrayList<Specialty>> getSpecialties() {
+        return specialties;
     }
 
     public LiveData<Boolean> isNetworkException() {
@@ -44,11 +45,11 @@ public class WorkerViewModel extends ViewModel {
     }
 
     @SuppressWarnings("unchecked")
-    private void insertWorkers(ArrayList<Worker> workers) {
-        new GetWorkersAsyncTask().execute(workers);
+    public void insertSpecialties(ArrayList<Specialty> specialties) {
+        new GetSpecialtiesAsyncTask().execute(specialties);
     }
 
-    private class GetWorkersAsyncTask extends AsyncTask<ArrayList<Worker>, Void, ArrayList<Worker>> {
+    private class GetSpecialtiesAsyncTask extends AsyncTask<ArrayList<Specialty>, Void, ArrayList<Specialty>> {
 
         @Override
         protected void onPreExecute() {
@@ -56,10 +57,10 @@ public class WorkerViewModel extends ViewModel {
         }
 
         @Override
-        protected ArrayList<Worker> doInBackground(ArrayList<Worker>... lists) {
+        protected ArrayList<Specialty> doInBackground(ArrayList<Specialty>... lists) {
             try {
-                workers.postValue(dataRepository.getWorkers(lists[0]));
-                return workers.getValue();
+                specialties.postValue(dataRepository.getSpecialties(lists[0]));
+                return specialties.getValue();
             } catch (IOException e) {
                 e.printStackTrace();
                 return null;
@@ -67,13 +68,13 @@ public class WorkerViewModel extends ViewModel {
         }
 
         @Override
-        protected void onPostExecute(ArrayList<Worker> workers) {
+        protected void onPostExecute(ArrayList<Specialty> specialties) {
             isLoading.setValue(false);
         }
     }
 
     public void loadData() {
-        insertWorkers(null);
+        insertSpecialties(null);
         ApiFactory apiFactory = ApiFactory.getInstance();
         ApiService apiService = apiFactory.getApiService();
         disposable = apiService.getResponse()
@@ -82,7 +83,11 @@ public class WorkerViewModel extends ViewModel {
                 .subscribe(new Consumer<Response>() {
                     @Override
                     public void accept(Response response) {
-                        insertWorkers(response.getResponse());
+                        ArrayList<Specialty> specialties = new ArrayList<>();
+                        for (Worker workerInfo : response.getResponse()) {
+                            specialties.addAll(workerInfo.getSpecialty());
+                        }
+                        insertSpecialties(specialties);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
@@ -90,6 +95,7 @@ public class WorkerViewModel extends ViewModel {
                         isNetworkException.setValue(true);
                     }
                 });
+
     }
 
     @Override

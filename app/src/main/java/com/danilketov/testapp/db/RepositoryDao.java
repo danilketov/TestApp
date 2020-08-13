@@ -20,6 +20,12 @@ public interface RepositoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertSpecialties(ArrayList<Specialty> specialties);
 
+    @Query("DELETE FROM Worker")
+    void deleteWorkers();
+
+    @Query("DELETE FROM Specialty")
+    void deleteSpecialties();
+
     @Query("SELECT * FROM Worker")
     List<Worker> getWorkers();
 
