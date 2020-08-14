@@ -21,6 +21,7 @@ import com.danilketov.testapp.entity.Worker;
 import com.danilketov.testapp.utils.Const;
 import com.danilketov.testapp.utils.Converter;
 import com.danilketov.testapp.utils.Filter;
+import com.danilketov.testapp.utils.Parameters;
 import com.danilketov.testapp.viewmodel.WorkerViewModel;
 import com.google.gson.Gson;
 
@@ -60,13 +61,13 @@ public class WorkerFragment extends Fragment {
         viewModel.loadData();
 
         viewModel.isLoading().observe(this, (isLoading) -> {
-            if(isLoading != null) {
+            if (isLoading != null) {
                 binding.progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
             }
         });
 
         viewModel.isNetworkException().observe(this, (isException) -> {
-            if(isException != null && isException) {
+            if (isException != null && isException) {
                 Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
             }
         });
@@ -94,7 +95,7 @@ public class WorkerFragment extends Fragment {
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_container, new DescWorkerFragment()
-                                .newInstance(lastName, firstName, age, birthday, avatar, specialtyJSON))
+                                .newInstance(new Parameters(lastName, firstName, age, birthday, avatar, specialtyJSON)))
                         .addToBackStack(null)
                         .commit();
             }

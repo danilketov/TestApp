@@ -13,9 +13,9 @@ import androidx.fragment.app.Fragment;
 
 import com.danilketov.testapp.R;
 import com.danilketov.testapp.databinding.FragmentDescWorkerBinding;
-import com.danilketov.testapp.utils.Arguments;
 import com.danilketov.testapp.utils.Const;
 import com.danilketov.testapp.utils.Filter;
+import com.danilketov.testapp.utils.Parameters;
 import com.squareup.picasso.Picasso;
 
 
@@ -65,20 +65,14 @@ public class DescWorkerFragment extends Fragment {
         }
     }
 
-    public static Fragment newInstance(
-            String lastName,
-            String firstName,
-            String age,
-            String birthday,
-            String avatar,
-            String specialtyJSON) {
+    public static Fragment newInstance(Parameters parameters) {
         Bundle args = new Bundle();
-        args.putString(Const.KEY_WORKER_LAST_NAME, lastName);
-        args.putString(Const.KEY_WORKER_FIRST_NAME, firstName);
-        args.putString(Const.KEY_WORKER_AGE, age);
-        args.putString(Const.KEY_WORKER_BIRTHDAY, birthday);
-        args.putString(Const.KEY_WORKER_AVATAR, avatar);
-        args.putString(Const.KEY_SPECIALTY_JSON, specialtyJSON);
+        args.putString(Const.KEY_WORKER_LAST_NAME, parameters.getLastName());
+        args.putString(Const.KEY_WORKER_FIRST_NAME, parameters.getFirstName());
+        args.putString(Const.KEY_WORKER_AGE, parameters.getAge());
+        args.putString(Const.KEY_WORKER_BIRTHDAY, parameters.getBirthday());
+        args.putString(Const.KEY_WORKER_AVATAR, parameters.getAvatar());
+        args.putString(Const.KEY_SPECIALTY_JSON, parameters.getSpecialtyJSON());
         DescWorkerFragment fragment = new DescWorkerFragment();
         fragment.setArguments(args);
         return fragment;
