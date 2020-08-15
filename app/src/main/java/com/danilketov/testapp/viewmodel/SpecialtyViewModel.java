@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.danilketov.testapp.App;
-import com.danilketov.testapp.entity.Response;
 import com.danilketov.testapp.entity.Specialty;
 import com.danilketov.testapp.entity.Worker;
 import com.danilketov.testapp.network.ApiFactory;
@@ -19,7 +18,6 @@ import java.util.ArrayList;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class SpecialtyViewModel extends ViewModel {
@@ -45,7 +43,7 @@ public class SpecialtyViewModel extends ViewModel {
     }
 
     @SuppressWarnings("unchecked")
-    public void insertSpecialties(ArrayList<Specialty> specialties) {
+    private void insertSpecialties(ArrayList<Specialty> specialties) {
         new GetSpecialtiesAsyncTask().execute(specialties);
     }
 
@@ -80,22 +78,13 @@ public class SpecialtyViewModel extends ViewModel {
         disposable = apiService.getResponse()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Response>() {
-                    @Override
-                    public void accept(Response response) {
-                        ArrayList<Specialty> specialties = new ArrayList<>();
-                        for (Worker workerInfo : response.getResponse()) {
-                            specialties.addAll(workerInfo.getSpecialty());
-                        }
-                        insertSpecialties(specialties);
+                .subscribe(response -> {
+                    ArrayList<Specialty> specialties = new ArrayList<>();
+                    for (Worker workerInfo : response.getResponse()) {
+                        specialties.addAll(workerInfo.getSpecialty());
                     }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) {
-                        isNetworkException.setValue(true);
-                    }
-                });
-
+                    insertSpecialties(specialties);
+                }, throwable -> isNetworkException.setValue(true));
     }
 
     @Override

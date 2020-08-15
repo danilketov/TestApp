@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.danilketov.testapp.App;
-import com.danilketov.testapp.entity.Response;
 import com.danilketov.testapp.entity.Worker;
 import com.danilketov.testapp.network.ApiFactory;
 import com.danilketov.testapp.network.ApiService;
@@ -18,7 +17,6 @@ import java.util.ArrayList;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class WorkerViewModel extends ViewModel {
@@ -79,17 +77,8 @@ public class WorkerViewModel extends ViewModel {
         disposable = apiService.getResponse()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Response>() {
-                    @Override
-                    public void accept(Response response) {
-                        insertWorkers(response.getResponse());
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) {
-                        isNetworkException.setValue(true);
-                    }
-                });
+                .subscribe(response -> insertWorkers(response.getResponse()),
+                        throwable -> isNetworkException.setValue(true));
     }
 
     @Override
