@@ -83,14 +83,11 @@ public class WorkerAdapter extends RecyclerView.Adapter<WorkerAdapter.WorkerView
             ageTextView = itemView.findViewById(R.id.age_text_view);
             avatarImageView = itemView.findViewById(R.id.avatar_circle_image_view);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int adapterPos = getAdapterPosition();
-                    if (adapterPos != RecyclerView.NO_POSITION) {
-                        Worker worker = workers.get(adapterPos);
-                        onInfoWorkerClickListener.onInfoWorkerClick(worker);
-                    }
+            itemView.setOnClickListener(v -> {
+                int adapterPos = getAdapterPosition();
+                if (adapterPos != RecyclerView.NO_POSITION) {
+                    Worker worker = workers.get(adapterPos);
+                    onInfoWorkerClickListener.onInfoWorkerClick(worker);
                 }
             });
         }

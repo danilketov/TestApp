@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
         setViewBinding();
         setToolbar();
-        createStartFragment(savedInstanceState);
+        createFirstFragment(savedInstanceState);
     }
 
     private void setViewBinding() {
@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(view);
     }
 
-    private void createStartFragment(Bundle savedInstanceState) {
+    private void createFirstFragment(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()

@@ -52,4 +52,13 @@ public class Filter {
         }
         return specialtyText;
     }
+
+    // Выборка уникальных элементов для списка "Специальности"
+    public static void addUniqueItems(List<Specialty> items, List<Specialty> specialties) {
+        for (Specialty specialty : items) {
+            if (!specialties.contains(specialty)) {
+                specialties.add(specialty);
+            }
+        }
+    }
 }

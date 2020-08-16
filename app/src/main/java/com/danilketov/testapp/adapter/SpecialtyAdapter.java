@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.danilketov.testapp.R;
 import com.danilketov.testapp.entity.Specialty;
+import com.danilketov.testapp.utils.Filter;
 import com.danilketov.testapp.utils.SpecialtyDiffUtilCallback;
 
 import java.util.ArrayList;
@@ -57,19 +58,11 @@ public class SpecialtyAdapter extends RecyclerView.Adapter<SpecialtyAdapter.Spec
         checkUpdateItems(items);
     }
 
-    private void addUniqueItems(List<Specialty> items) {
-        for (Specialty specialty : items) {
-            if (!specialties.contains(specialty)) {
-                specialties.add(specialty);
-            }
-        }
-    }
-
-    private void checkUpdateItems(List<Specialty> specialties) {
+    private void checkUpdateItems(List<Specialty> items) {
         final SpecialtyDiffUtilCallback diffCallback = new SpecialtyDiffUtilCallback(this.specialties, specialties);
         final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
         this.specialties.clear();
-        addUniqueItems(specialties);
+        Filter.addUniqueItems(items, specialties);
         diffResult.dispatchUpdatesTo(this);
     }
 
@@ -82,14 +75,11 @@ public class SpecialtyAdapter extends RecyclerView.Adapter<SpecialtyAdapter.Spec
 
             specialtyTextView = itemView.findViewById(R.id.specialty_text_view);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int adapterPos = getAdapterPosition();
-                    if (adapterPos != RecyclerView.NO_POSITION) {
-                        Specialty specialty = specialties.get(adapterPos);
-                        onInfoSpecialClickListener.onInfoSpecialClick(specialty);
-                    }
+            itemView.setOnClickListener(v -> {
+                int adapterPos = getAdapterPosition();
+                if (adapterPos != RecyclerView.NO_POSITION) {
+                    Specialty specialty = specialties.get(adapterPos);
+                    onInfoSpecialClickListener.onInfoSpecialClick(specialty);
                 }
             });
         }
