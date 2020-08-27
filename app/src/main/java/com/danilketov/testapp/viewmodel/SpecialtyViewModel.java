@@ -23,11 +23,9 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class SpecialtyViewModel extends ViewModel {
 
     private DataRepository dataRepository = App.getDataRepository();
-
     private MutableLiveData<ArrayList<Specialty>> specialties = new MutableLiveData<>();
     private MutableLiveData<Boolean> isNetworkException = new MutableLiveData<>();
     private MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
-
     private Disposable disposable;
 
     public LiveData<ArrayList<Specialty>> getSpecialties() {

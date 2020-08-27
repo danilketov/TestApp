@@ -5,7 +5,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
-import com.danilketov.testapp.utils.CustomTypeConverter;
+import com.danilketov.testapp.db.CustomTypeConverter;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;

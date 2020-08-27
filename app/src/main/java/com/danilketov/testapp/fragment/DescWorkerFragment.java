@@ -18,7 +18,6 @@ import com.danilketov.testapp.utils.Filter;
 import com.danilketov.testapp.utils.Parameters;
 import com.squareup.picasso.Picasso;
 
-
 public class DescWorkerFragment extends Fragment {
 
     FragmentDescWorkerBinding binding;

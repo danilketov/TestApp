@@ -50,7 +50,7 @@ public class Converter {
         return null;
     }
 
-    //Преобразование возраста из дня рождения
+    // Преобразование возраста из дня рождения
     @NotNull
     public static String getFormattedAge(@Nullable String birthdayString) {
 

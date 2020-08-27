@@ -45,7 +45,12 @@ public class WorkerFragment extends Fragment {
         setSettingsToolbar();
         initRecyclerView();
         getNameSpecialty();
+        setViewModel();
 
+        return view;
+    }
+
+    private void setViewModel() {
         viewModel = ViewModelProviders.of(this).get(WorkerViewModel.class);
         viewModel.getWorkers().observe(this, new Observer<ArrayList<Worker>>() {
             @Override
@@ -59,20 +64,16 @@ public class WorkerFragment extends Fragment {
             }
         });
         viewModel.loadData();
-
         viewModel.isLoading().observe(this, (isLoading) -> {
             if (isLoading != null) {
                 binding.progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
             }
         });
-
         viewModel.isNetworkException().observe(this, (isException) -> {
             if (isException != null && isException) {
                 Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
             }
         });
-
-        return view;
     }
 
     private void setSettingsToolbar() {

@@ -1,4 +1,4 @@
-package com.danilketov.testapp.utils;
+package com.danilketov.testapp.db;
 
 import androidx.room.TypeConverter;
 
@@ -20,7 +20,8 @@ public class CustomTypeConverter {
             return Collections.emptyList();
         }
 
-        Type listType = new TypeToken<List<Specialty>>() {}.getType();
+        Type listType = new TypeToken<List<Specialty>>() {
+        }.getType();
 
         return gson.fromJson(data, listType);
     }

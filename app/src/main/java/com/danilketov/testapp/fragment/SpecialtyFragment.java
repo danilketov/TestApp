@@ -38,7 +38,12 @@ public class SpecialtyFragment extends Fragment {
 
         setSettingsToolbar();
         initRecyclerView();
+        setVewModel();
 
+        return view;
+    }
+
+    private void setVewModel() {
         viewModel = ViewModelProviders.of(this).get(SpecialtyViewModel.class);
         viewModel.getSpecialties().observe(this, new Observer<ArrayList<Specialty>>() {
             @Override
@@ -47,20 +52,16 @@ public class SpecialtyFragment extends Fragment {
             }
         });
         viewModel.loadData();
-
         viewModel.isLoading().observe(this, (isLoading) -> {
             if (isLoading != null) {
                 binding.progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
             }
         });
-
         viewModel.isNetworkException().observe(this, (isException) -> {
             if (isException != null && isException) {
                 Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
             }
         });
-
-        return view;
     }
 
     private void initRecyclerView() {

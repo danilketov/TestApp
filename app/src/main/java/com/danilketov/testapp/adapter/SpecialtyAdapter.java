@@ -59,7 +59,7 @@ public class SpecialtyAdapter extends RecyclerView.Adapter<SpecialtyAdapter.Spec
     }
 
     private void checkUpdateItems(List<Specialty> items) {
-        final SpecialtyDiffUtilCallback diffCallback = new SpecialtyDiffUtilCallback(this.specialties, specialties);
+        final SpecialtyDiffUtilCallback diffCallback = new SpecialtyDiffUtilCallback(this.specialties, items);
         final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
         this.specialties.clear();
         Filter.addUniqueItems(items, specialties);

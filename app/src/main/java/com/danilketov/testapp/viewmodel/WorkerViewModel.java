@@ -22,11 +22,9 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class WorkerViewModel extends ViewModel {
 
     private DataRepository dataRepository = App.getDataRepository();
-
     private MutableLiveData<ArrayList<Worker>> workers = new MutableLiveData<>();
     private MutableLiveData<Boolean> isNetworkException = new MutableLiveData<>();
     private MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
-
     private Disposable disposable;
 
     public LiveData<ArrayList<Worker>> getWorkers() {

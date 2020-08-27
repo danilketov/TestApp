@@ -60,11 +60,11 @@ public class WorkerAdapter extends RecyclerView.Adapter<WorkerAdapter.WorkerView
         checkUpdateItems(items);
     }
 
-    private void checkUpdateItems(List<Worker> workers) {
-        final WorkerDiffUtilCallback diffCallback = new WorkerDiffUtilCallback(this.workers, workers);
+    private void checkUpdateItems(List<Worker> items) {
+        final WorkerDiffUtilCallback diffCallback = new WorkerDiffUtilCallback(this.workers, items);
         final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
         this.workers.clear();
-        this.workers.addAll(workers);
+        this.workers.addAll(items);
         diffResult.dispatchUpdatesTo(this);
     }
 
