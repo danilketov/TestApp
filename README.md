@@ -27,6 +27,6 @@ https://gitlab.65apps.com/65gb/static/raw/master/testTask.json
 
 Разрешается использовать любые сторонние библиотеки.
 
-![Alt-текст](https://sun9-46.userapi.com/beXQ04GU0hqvi-hDdA_zMGgEvZOsNBKDApJ-ug/1HhL54Mxe5k.jpg "Дисплей 1")
-![Alt-текст](https://sun9-56.userapi.com/7XrXqpPK4CQ4bfDpP-UvG755fq1RVyUhqFo1Rg/H5JVHgwPI4E.jpg "Дисплей 2")
-![Alt-текст](https://sun9-22.userapi.com/4spAoQA-mu2pPWZOiTwE1A6GKcb7uOtg_pcFng/8AX1V9QKv5U.jpg "Дисплей 3")
+![Alt-текст](https://sun9-27.userapi.com/7AseVpKS5ghpjcJf0Jq3juomRe2OT-vre5WW1g/r6Bm_uslAGo.jpg "Дисплей 1")
+![Alt-текст](https://sun9-73.userapi.com/GlzsGw_T0E3YuygCPEf8f2vArlwt-yrU7Te1BQ/bMEGtq1mirY.jpg "Дисплей 2")
+![Alt-текст](https://sun9-69.userapi.com/CVS3NVtzUivTCJ20MKr9AsVQpycEIujUZc2SiA/AvaD_UolTrg.jpg "Дисплей 3")
