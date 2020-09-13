@@ -30,3 +30,9 @@ https://gitlab.65apps.com/65gb/static/raw/master/testTask.json
 ![Alt-текст](https://sun9-27.userapi.com/7AseVpKS5ghpjcJf0Jq3juomRe2OT-vre5WW1g/r6Bm_uslAGo.jpg "Дисплей 1")
 ![Alt-текст](https://sun9-73.userapi.com/GlzsGw_T0E3YuygCPEf8f2vArlwt-yrU7Te1BQ/bMEGtq1mirY.jpg "Дисплей 2")
 ![Alt-текст](https://sun9-69.userapi.com/CVS3NVtzUivTCJ20MKr9AsVQpycEIujUZc2SiA/AvaD_UolTrg.jpg "Дисплей 3")
+
+- Retrofit
+- AsyncTask
+- RxJava
+- Room
+- MVVM
